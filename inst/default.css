@@ -1,0 +1,32 @@
+table {
+  border-collapse: collapse;
+}
+
+td {
+  padding: 2px 5px;
+  text-align: center;
+}
+
+td.column_level {
+  background-color: #ddd;
+  border-bottom: solid 1px black;
+  font-weight: bold;
+}
+
+td.row_level {
+  background-color: #ddd;
+  border-right: solid 1px black;
+  font-weight: bold;
+}
+
+td.col_total {
+  background-color: #ddd;
+  border-top: solid 1px black;
+  font-weight: bold;
+}
+
+td.row_total {
+  background-color: #ddd;
+  border-left: solid 1px black;
+  font-weight: bold;
+}
