@@ -155,6 +155,65 @@ function display_by_row (dom_id,table_name){
 
 };
 
+function make_dummy_table(table_obj){
+  dummy_table = [];
+  table_obj.raw_cnts.forEach(function(el,idx){
+    dummy = el.slice();
+    dummy_table.push(dummy);
+  });
+  return dummy_table;
+}
+
+function calculate_by_col(table_name){
+  table_obj = tables[table_name];
+  rows = make_dummy_table(table_obj); //copy raw counts
+  console.log(rows);
+  rows.forEach(function(el,idx){
+    el.push(table_obj.row_marg[idx]);
+  });//add column for row marginals
+  console.log(rows);
+  col_margs = table_obj.col_marg.slice(); //copy column marginals
+  col_margs.push(col_margs.reduce(function(p,c){
+    return p + c;
+  })); // add grand total for column marginals
+  console.log(col_margs);
+  relatives = rows.map(function(el, id, arr){
+    var my_this = this;
+    return el.map(function(col_el, col_idx, col_arr){
+      perc = Math.round(10000*col_el/this[col_idx])/100;
+      return perc.toString() + '%';
+    }, my_this);
+  }, col_margs);
+  console.log(relatives);
+  return relatives;
+}
+
+function display_by_col (dom_id,table_name){
+  table_obj = tables[table_name];
+  //clear out
+  clear_elements(dom_id);
+
+  //calculate
+  res = calculate_by_col(table_name);
+  //fill back in
+  var N = table_obj.dim[0];
+  var M = table_obj.dim[1];
+  trs = document.getElementById(dom_id).getElementsByTagName('tr');
+  for(i = 0; i < N; i++){
+    tds = trs[i+1].getElementsByTagName('td');
+    res[i].forEach(function(el,idx){
+      this[idx+1].innerHTML = el;
+    },tds);
+  }
+  //fill in last row with raw cnts
+  tds = trs[N+1].getElementsByTagName('td');
+  for(i = 0; i < M ; i++){
+    tds[i+1].innerHTML = table_obj.col_marg[i];
+  }
+  tds[M+1].innerHTML = table_obj.total;
+
+};
+
 document.addEventListener('DOMContentLoaded', function() {
 
     setup_table("table1");
