@@ -22,6 +22,9 @@ function setup_table(table_name){
   );
   table_obj.dim = [table_obj.raw_cnts.length, table_obj.raw_cnts[0].length];
   table_obj.residuals = calculate_residuals(table_name);
+  table_obj.chisq = calculate_chisq(table_name);
+  table_obj.df = calculate_df(table_name);
+  console.log(table_obj.df);
 };
 
 function make_headers_and_blanks(dom_id, table_name){
@@ -212,7 +215,6 @@ function calculate_residuals(table_name){
       raw_res = row_el - expected;
       std_res = raw_res/Math.sqrt(expected);
       round_res = Math.round(10000*std_res)/10000;
-      console.log(round_res);
       return round_res;
     },second_pass);
   },to_pass)
@@ -246,3 +248,23 @@ function display_residuals (dom_id,table_name){
   tds[M+1].innerHTML = table_obj.total;
 
 };
+
+function calculate_chisq (table_name){
+  table_obj = tables[table_name];
+  var stat;
+  stat = table_obj.residuals.reduce(function(pv,cv){
+    tmp = cv.reduce(function(ppv,ccv){
+      return ppv + (ccv*ccv);
+    },0);
+    return pv + tmp;
+  },0);
+  return Math.round(1000*stat)/1000;
+};
+
+function calculate_df (table_name){
+  return (tables[table_name].dim[0]-1) * (tables[table_name].dim[1]-1);
+}
+
+function calculate_p_value (table_name){
+
+}

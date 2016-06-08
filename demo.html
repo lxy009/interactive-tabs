@@ -19,17 +19,28 @@
       setup_table("table1");
       make_headers_and_blanks("table1","table1");
       display_raw("table1","table1");
+      document.getElementById('chisq_stat').innerHTML = tables.table1.chisq;
+      document.getElementById('df').innerHTML = tables.table1.df;
   }, false);
   </script>
 </head>
 
 <body>
+
   <button onclick='display_raw("table1","table1")'>counts</button>
   <button onclick='display_by_row("table1","table1")'>row marginals</button>
   <button onclick='display_by_col("table1","table1")'>col marginals</button>
   <button onclick='display_residuals("table1","table1")'>std. res</button>
-<table id='table1'>
-</table>
+
+  <table id='table1'>
+  </table>
+
+  <p>
+    Chi Squared Statistic: <span id='chisq_stat'></span>
+  </p>
+  <p>
+    Degrees of Freedom: <span id='df'></span>
+  </p>
 
 </body>
 
