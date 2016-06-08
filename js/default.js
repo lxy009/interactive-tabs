@@ -1,7 +1,5 @@
 
-
-//document.getElementById("by_row").addEventListener("click", display_by_row("table1"));
-
+// from raw_cnts - calculate marginals, dimensions, residuals, and statistics
 function setup_table(table_name){
   table_obj = tables[table_name]
   table_obj.row_marg = table_obj.raw_cnts.map(function(el){
@@ -23,6 +21,7 @@ function setup_table(table_name){
     }
   );
   table_obj.dim = [table_obj.raw_cnts.length, table_obj.raw_cnts[0].length];
+  table_obj.residuals = calculate_residuals(table_name);
 };
 
 function make_headers_and_blanks(dom_id, table_name){
@@ -226,7 +225,8 @@ function display_residuals (dom_id,table_name){
   clear_elements(dom_id);
 
   //calculate
-  res = calculate_residuals(table_name);
+  //res = calculate_residuals(table_name);
+  res = table_obj.residuals;
   //fill back in
   var N = table_obj.dim[0];
   var M = table_obj.dim[1];
