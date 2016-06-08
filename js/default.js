@@ -1,12 +1,4 @@
-var tables = {
-  'table1':{
-    'raw_cnts': [ [118, 57], [4, 140] ],
-    'dims': [
-              {'name':'survived','levels':['yes','no']},
-              {'name':'gender', 'levels': ['male','female']}
-            ]
-  }
-};
+
 
 //document.getElementById("by_row").addEventListener("click", display_by_row("table1"));
 
@@ -254,10 +246,3 @@ function display_residuals (dom_id,table_name){
   tds[M+1].innerHTML = table_obj.total;
 
 };
-
-document.addEventListener('DOMContentLoaded', function() {
-
-    setup_table("table1");
-    make_headers_and_blanks("table1","table1");
-    display_raw("table1","table1");
-}, false);
